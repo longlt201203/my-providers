@@ -2,12 +2,16 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { APP_FILTER, APP_PIPE } from '@nestjs/core';
-import { MyExceptionFilter, ValidationPipe } from '@utils';
-import { SampleModule } from '@modules/sample';
-import { DbModule } from '@db';
+import { Env, MyExceptionFilter, ValidationPipe } from '@utils';
+import { GoogleModule } from '@providers/google';
 
 @Module({
-  imports: [DbModule, SampleModule],
+  imports: [
+    GoogleModule.register({
+      clientId: Env.GOOGLE_CLIENT_ID,
+      clientSecret: Env.GOOGLE_CLIENT_SECRET,
+    })
+  ],
   controllers: [AppController],
   providers: [
     AppService,
